@@ -1,0 +1,313 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* Material Design Primary Colors - Blue */
+    --primary: 224 64% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Light Purple/Lavender */
+    --secondary: 262 83% 58%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Accent - Teal */
+    --accent: 174 100% 29%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Success - Green */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning - Amber */
+    --warning: 45 100% 51%;
+    --warning-foreground: 0 0% 0%;
+
+    /* Destructive - Red */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Material Design Primary Colors - Blue (darker for dark mode) */
+    --primary: 224 72% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Light Purple/Lavender (adjusted for dark mode) */
+    --secondary: 262 83% 67%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Accent - Teal (adjusted for dark mode) */
+    --accent: 174 75% 42%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Success - Green (adjusted for dark mode) */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning - Amber (adjusted for dark mode) */
+    --warning: 45 100% 60%;
+    --warning-foreground: 0 0% 0%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom container for full-width layout with small padding */
+.container-fluid {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Material design elevation/shadow classes */
+.elevation-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.elevation-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.elevation-3 {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+/* Material design surface colors for blocks */
+.surface-primary {
+  background-color: hsl(var(--primary) / 0.05);
+  border-color: hsl(var(--primary) / 0.2);
+}
+
+.surface-secondary {
+  background-color: hsl(var(--secondary) / 0.05);
+  border-color: hsl(var(--secondary) / 0.2);
+}
+
+.surface-accent {
+  background-color: hsl(var(--accent) / 0.05);
+  border-color: hsl(var(--accent) / 0.2);
+}
+
+.surface-success {
+  background-color: hsl(var(--success) / 0.05);
+  border-color: hsl(var(--success) / 0.2);
+}
+
+.surface-warning {
+  background-color: hsl(var(--warning) / 0.05);
+  border-color: hsl(var(--warning) / 0.2);
+}
+
+/* Status color overrides for dark mode */
+.dark .bg-green-100 {
+  background-color: rgba(74, 222, 128, 0.2);
+  color: rgba(74, 222, 128, 1);
+}
+
+.dark .bg-blue-100 {
+  background-color: rgba(96, 165, 250, 0.2);
+  color: rgba(96, 165, 250, 1);
+}
+
+.dark .bg-red-100 {
+  background-color: rgba(248, 113, 113, 0.2);
+  color: rgba(248, 113, 113, 1);
+}
+
+.dark .bg-yellow-100 {
+  background-color: rgba(250, 204, 21, 0.2);
+  color: rgba(250, 204, 21, 1);
+}
+
+.dark .bg-purple-100 {
+  background-color: rgba(192, 132, 252, 0.2);
+  color: rgba(192, 132, 252, 1);
+}
+
+.dark .bg-gray-100 {
+  background-color: rgba(156, 163, 175, 0.2);
+  color: rgba(156, 163, 175, 1);
+}
+
+/* Dashboard colors for dark mode */
+.dark .bg-card {
+  background-color: hsl(222.2 84% 4.9%);
+}
+
+/* Remove this when fixed */
+[data-component="filters"] {
+  display: none !important;
+}
+
+/* Mobile styles */
+@media (max-width: 640px) {
+  .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  h1, h2, h3 {
+    font-size: 90%;
+  }
+}
+
+/* Force mobile styles for mobile mode */
+html[data-display-mode="mobile"] .container-fluid,
+.force-mobile .container-fluid {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+html[data-display-mode="mobile"] h1,
+html[data-display-mode="mobile"] h2,
+html[data-display-mode="mobile"] h3,
+.force-mobile h1,
+.force-mobile h2,
+.force-mobile h3 {
+  font-size: 90%;
+}
+
+html[data-display-mode="mobile"] .hidden-mobile,
+.force-mobile .hidden-mobile {
+  display: none !important;
+}
+
+html[data-display-mode="mobile"] .block-mobile,
+.force-mobile .block-mobile {
+  display: block !important;
+}
+
+html[data-display-mode="mobile"] .flex-mobile,
+.force-mobile .flex-mobile {
+  display: flex !important;
+}
+
+html[data-display-mode="mobile"] .grid-mobile,
+.force-mobile .grid-mobile {
+  display: grid !important;
+}
+
+html[data-display-mode="mobile"] th,
+html[data-display-mode="mobile"] td,
+.force-mobile th,
+.force-mobile td {
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+html[data-display-mode="mobile"] button,
+.force-mobile button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+html[data-display-mode="mobile"] input,
+html[data-display-mode="mobile"] select,
+.force-mobile input,
+.force-mobile select {
+  height: 2rem;
+  font-size: 0.85rem;
+}
+
+/* Responsive table for mobile */
+@media (max-width: 640px) {
+  .responsive-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .responsive-table table {
+    width: 100%;
+    min-width: 500px;
+  }
+
+  .responsive-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .responsive-tabs [role="tablist"] {
+    flex-wrap: wrap;
+  }
+
+  .responsive-tabs [role="tab"] {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* Mobile mode styles */
+html[data-display-mode="mobile"] .responsive-table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+html[data-display-mode="mobile"] .responsive-table table {
+  width: 100%;
+  min-width: 500px;
+}
+
+html[data-display-mode="mobile"] .responsive-form-grid {
+  grid-template-columns: 1fr !important;
+}
+
+html[data-display-mode="mobile"] .responsive-tabs [role="tablist"] {
+  flex-wrap: wrap;
+}
+
+html[data-display-mode="mobile"] .responsive-tabs [role="tab"] {
+  flex: 1 1 auto;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+}

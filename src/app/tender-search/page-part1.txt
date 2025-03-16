@@ -1,0 +1,189 @@
+"use client";
+
+import { useState } from "react";
+import { Navbar } from "@/components/navbar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Plus, X, Search, Eye, HelpCircle, Link, ArrowDown, ArrowUp, Download } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+
+// Типы данных для тендеров
+interface TenderItem {
+  id: string;
+  number: string;
+  title: string;
+  type: string;
+  status: string;
+  date: string;
+  endDate: string;
+  region: string;
+  price: number;
+  currency: string;
+  organization: string;
+  details?: string;
+}
+
+// Тестовые данные для тендеров
+const tenderItems: TenderItem[] = [
+  {
+    id: "1",
+    number: "00123456789",
+    title: "Выполнение работ по текущему ремонту и содержанию линий уличного освещения",
+    type: "Закупка малого объема",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "19.03.2025 15:00 МСК (4 дня)",
+    region: "Ставропольский край",
+    price: 512244.00,
+    currency: "РУБ",
+    organization: "МКОУ СОШ № 13 С. АПАНАСЕНКОВСКОЕ",
+  },
+  {
+    id: "2",
+    number: "32312844942",
+    title: "Оказание услуг по предоставлению доступа к сервису совместной технической поддержки продуктов ViPNet защищенной сети передачи данных подсистемы обеспечения информационной безопасности",
+    type: "ФЗ 44: Электронный аукцион",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "24.03.2025 13:00 МСК (9 дней)",
+    region: "Белгородская область",
+    price: 1583170.00,
+    currency: "РУБ",
+    organization: "ФГКУ \"ЦЕНТР ЗАКУПОК\"",
+  },
+  {
+    id: "3",
+    number: "08611267767561",
+    title: "Поставка инструментов для нужд отделения операционного блока нейрохирургии ГАУЗ \"ОДКБ\"",
+    type: "Закупка малого объема",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "17.03.2025 14:30 МСК (2 дня)",
+    region: "Оренбургская область",
+    price: 511385.00,
+    currency: "РУБ",
+    organization: "ГАУЗ \"ОДКБ\"",
+  },
+  {
+    id: "4",
+    number: "00456123987",
+    title: "Поставка полотенец бумажных рулонных для диспенсеров для нужд СПб ГБУК «Театр на Садовой» в 2025 году",
+    type: "Закупка малого объема",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "18.03.2025 22:14 МСК (3 дня)",
+    region: "Санкт-Петербург город",
+    price: 252576.00,
+    currency: "РУБ",
+    organization: "СПб ГБУК «Театр на Садовой»",
+  },
+  {
+    id: "5",
+    number: "06240000003246",
+    title: "Выполнение работ по ямочному ремонту асфальтобетонного покрытия проезжей части автомобильных дорог струйно-инъекционным методом Турбо на территории городского округа город Архангельск в 2025 году",
+    type: "ФЗ 44: Запрос котировок в электронной форме",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "24.03.2025 13:00 МСК (9 дней)",
+    region: "Архангельская область",
+    price: 754002.00,
+    currency: "РУБ",
+    organization: "Городская администрация",
+  },
+  {
+    id: "6",
+    number: "06050600112365",
+    title: "Комплексное территориальное развитие МО Г.о. Дербент (СМР - строительство ДОУ на 140 мест в мкр Аэропорт)",
+    type: "ФЗ 44: Открытый конкурс в электронной форме",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "31.03.2025 13:00 МСК (16 дней)",
+    region: "Дагестан республика",
+    price: 267658020.00,
+    currency: "РУБ",
+    organization: "Администрация МО Г.о. Дербент",
+  },
+  {
+    id: "7",
+    number: "01480000011598",
+    title: "Оказание услуг по проведению периодического медицинского осмотра и санитарно-гигиеническое обучение",
+    type: "ФЗ 44: Запрос котировок в электронной форме",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "21.03.2025 14:00 МСК (6 дней)",
+    region: "Московская область",
+    price: 1136333.00,
+    currency: "РУБ",
+    organization: "Медицинский центр",
+  },
+  {
+    id: "8",
+    number: "TM1747",
+    title: "Оказание услуг по охране объекта в МОУ ДЮЦ Тракторозаводского района Волгограда",
+    type: "Закупка малого объема",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "17.03.2025 20:00 МСК (2 дня)",
+    region: "Волгоградская область",
+    price: 128800.00,
+    currency: "РУБ",
+    organization: "МОУ ДЮЦ Тракторозаводского района Волгограда",
+  },
+  {
+    id: "9",
+    number: "06480000023997",
+    title: "Оказание услуг по разработке программных роботов",
+    type: "ФЗ 44: Запрос цен товаров, работ, услуг",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "22.03.2025 00:00 МСК (7 дней)",
+    region: "Московская область",
+    price: 0.00,
+    currency: "РУБ",
+    organization: "IT компания",
+  },
+  {
+    id: "10",
+    number: "01180000010235",
+    title: "Поставка щеточных дисков",
+    type: "ФЗ 44: Электронный аукцион",
+    status: "Текущие",
+    date: "14.03.2025",
+    endDate: "24.03.2025 14:00 МСК (9 дней)",
+    region: "Московская область",
+    price: 237255.00,
+    currency: "РУБ",
+    organization: "Коммунальная служба",
+  },
+];
