@@ -8,8 +8,8 @@ import PageTransition from "@/components/page-transition";
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = {
-  title: "CRMTORGI - Система управления тендерами и задачами",
-  description: "Современная платформа для управления тендерами и задачами",
+  title: "CRM TORGI - Система управления тендерами и контрактами",
+  description: "Автоматизируйте участие в аукционах с CRM TORGI: от подготовки заявок до исполнения контрактов с интеграцией 1С",
   icons: {
     icon: [
       {

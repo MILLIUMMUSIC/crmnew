@@ -119,6 +119,14 @@ export default function TasksPage() {
     }
   };
 
+  // Add a function to get styling for important tasks
+  const getImportanceStyling = (important: boolean) => {
+    if (important) {
+      return "border-l-4 border-l-orange-500 dark:border-l-orange-400";
+    }
+    return "";
+  };
+
   return (
     <>
       <Navbar user={{ name: "User", company: "Company" }} />
@@ -355,7 +363,6 @@ export default function TasksPage() {
                     <TableHead className="w-[120px]">Статус</TableHead>
                     <TableHead className="w-[120px]">Уведомления</TableHead>
                     <TableHead className="w-[120px]">Дата решения</TableHead>
-                    <TableHead className="w-[120px]">Важно</TableHead>
                     <TableHead className="w-[150px]">Исполнитель</TableHead>
                     <TableHead>Заголовок</TableHead>
                     <TableHead className="w-[150px]">Ссылка на тендер</TableHead>
@@ -373,7 +380,7 @@ export default function TasksPage() {
                     filteredTasks.map(task => (
                       <TableRow
                         key={task.id}
-                        className="hover:bg-muted/50"
+                        className={`hover:bg-muted/50 ${task.important ? 'bg-orange-50 dark:bg-orange-950/20' : ''} ${getImportanceStyling(task.important)}`}
                       >
                         <TableCell>{task.number}</TableCell>
                         <TableCell>{task.author}</TableCell>
@@ -391,13 +398,13 @@ export default function TasksPage() {
                         <TableCell>
                           {task.resolutionDate || "—"}
                         </TableCell>
+                        <TableCell>{task.executor}</TableCell>
                         <TableCell>
                           {task.important && (
-                            <div className="text-orange-500 dark:text-orange-400">🔥</div>
+                            <span className="inline-flex items-center mr-1 text-orange-500 dark:text-orange-400">🔥</span>
                           )}
+                          {task.title}
                         </TableCell>
-                        <TableCell>{task.executor}</TableCell>
-                        <TableCell>{task.title}</TableCell>
                         <TableCell>
                           {task.tenderLink && (
                             <a
@@ -428,12 +435,13 @@ export default function TasksPage() {
         </div>
       </main>
 
-      <Dialog open={!!viewTask} onOpenChange={(open) => !open && setViewTask(null)}>
-        {viewTask && (
-          <DialogContent className="sm:max-w-[600px] elevation-3">
+      {viewTask && (
+        <Dialog open={!!viewTask} onOpenChange={() => setViewTask(null)}>
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader className="bg-gradient-to-r from-secondary/10 to-secondary/5 -mx-6 -mt-6 p-6 rounded-t-lg border-b">
-              <DialogTitle className="text-xl text-secondary">
-                Задача #{viewTask.number}
+              <DialogTitle className={`text-xl flex items-center text-secondary ${viewTask.important ? 'text-orange-500 dark:text-orange-400' : ''}`}>
+                {viewTask.important && <span className="inline-flex items-center mr-2">🔥</span>}
+                Задача #{viewTask.number}: {viewTask.title}
               </DialogTitle>
               <div className="mt-2 flex items-center gap-2">
                 <Badge
@@ -453,19 +461,16 @@ export default function TasksPage() {
                 <p className="text-sm font-medium leading-none text-secondary">Автор</p>
                 <p className="text-sm text-muted-foreground">{viewTask.author}</p>
               </div>
-
               <div className="space-y-1">
                 <p className="text-sm font-medium leading-none text-secondary">Исполнитель</p>
                 <p className="text-sm text-muted-foreground">{viewTask.executor}</p>
               </div>
-
               <div className="space-y-1">
                 <p className="text-sm font-medium leading-none text-secondary">Решить до</p>
                 <p className="text-sm text-red-500 dark:text-red-400">
                   {viewTask.dueDate}
                 </p>
               </div>
-
               {viewTask.resolutionDate && (
                 <div className="space-y-1">
                   <p className="text-sm font-medium leading-none text-secondary">Дата решения</p>
@@ -474,19 +479,9 @@ export default function TasksPage() {
                   </p>
                 </div>
               )}
-
               <div className="space-y-1">
                 <p className="text-sm font-medium leading-none text-secondary">Уведомления</p>
                 <p className="text-sm text-muted-foreground">{viewTask.notifications ? "Да" : "Нет"}</p>
-              </div>
-
-              <div className="space-y-1">
-                <p className="text-sm font-medium leading-none text-secondary">Важно</p>
-                <p className="text-sm text-muted-foreground">
-                  {viewTask.important ?
-                    <span className="text-orange-500 dark:text-orange-400">Да 🔥</span> :
-                    "Нет"}
-                </p>
               </div>
             </div>
 
@@ -507,8 +502,8 @@ export default function TasksPage() {
               </div>
             )}
           </DialogContent>
-        )}
-      </Dialog>
+        </Dialog>
+      )}
     </>
   );
 }
