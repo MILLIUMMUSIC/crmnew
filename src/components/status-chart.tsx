@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, TooltipItem } from 'chart.js';
 import { StatusStatGroup } from '@/types/report';
 import { statusColors } from '@/data/status-statistics';
 
@@ -40,10 +40,12 @@ export function StatusChart({ group, selectedGroup }: StatusChartProps) {
       },
       tooltip: {
         callbacks: {
-          label: function(context: any) {
+          label: function(context: TooltipItem<'pie'>) {
             const label = context.label || '';
-            const value = context.raw.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
-            const percentage = (context.raw / group.total.amount * 100).toFixed(2);
+            // Type assertion for raw value which is a number
+            const rawValue = context.raw as number;
+            const value = rawValue.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
+            const percentage = ((rawValue / group.total.amount) * 100).toFixed(2);
             return `${label}: ${value} ₽ (${percentage}%)`;
           }
         }
